@@ -1,3 +1,16 @@
+import { WebSocket } from 'ws';
+
+export enum FlexibleStatusEnum {
+    ALL = 'ALL',
+    SUBSCRIBABLE = 'SUBSCRIBABLE',
+    UNSUBSCRIBABLE = 'UNSUBSCRIBABLE'
+}
+
+export enum FeaturedEnum {
+    ALL = 'ALL',
+    TRUE = 'TRUE'
+}
+
 /**
  * @author tripolskypetr
  * @see https://github.com/tripolskypetr
@@ -850,6 +863,23 @@ declare module "node-binance-api" {
         lending(params?: any): Promise<any>;
         lending(...args: any): any;
 
+        /**
+        * Get Flexible Product List
+        * @param status - "ALL", "SUBSCRIBABLE", "UNSUBSCRIBABLE"; Default: "ALL"
+        * @param featured - "ALL", "TRUE"; Default: "ALL"
+        * @param size - Default: 50, Max: 100
+        * @param current - Current query page. Default: 1, Min: 1
+        * @return {promise}
+        */
+        flexibleProductList( status?: FlexibleStatusEnum, featured?: FeaturedEnum, size?: number, current?: number): Promise<any>;
+
+        /**
+        * Get Flexible Product Position
+        * @param asset
+        * @return {promise}
+        */
+        flexibleProductPosition( asset: string ): Promise<any>;
+
         futuresPing(params?: any): Promise<any>;
         futuresPing(...args: any): any;
 
@@ -1500,7 +1530,7 @@ declare module "node-binance-api" {
          * @param {string} endpoint - the string associated with the endpoint
          * @return {undefined}
          */
-        deliveryTerminate(endpoint: string);
+        deliveryTerminate(endpoint: string): any;
         deliveryTerminate(...args: any): any;
 
         /**

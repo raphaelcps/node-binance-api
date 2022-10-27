@@ -86,6 +86,7 @@ let api = function Binance( options = {} ) {
         timeOffset: 0
     };
     Binance.socketHeartbeatInterval = null;
+
     if ( options ) setOptions( options );
 
     function setOptions( opt = {}, callback = false ) {
@@ -3936,6 +3937,27 @@ let api = function Binance( options = {} ) {
             return promiseRequest( 'v1/lending/union/account', params, { base:sapi, type:'SIGNED' } );
         },
 
+        /**
+        * Get Flexible Product List
+        * @param status - "ALL", "SUBSCRIBABLE", "UNSUBSCRIBABLE"; Default: "ALL"
+        * @param featured - "ALL", "TRUE"; Default: "ALL"
+        * @param size - Default: 50, Max: 100
+        * @param current - Current query page. Default: 1, Min: 1
+        * @return {promise}
+        */
+        flexibleProductList: async ( status = FlexibleStatusEnum.ALL, featured = FeaturedEnum.ALL, size = 50, current = 1 ) => {
+            return promiseRequest( 'v1/lending/daily/product/list', { status, featured, size, current }, { base: sapi, type: 'SIGNED' } );
+        },
+
+        /**
+        * Get Flexible Product Position
+        * @param asset
+        * @return {promise}
+        */
+        flexibleProductPosition: async ( asset ) => {
+            return promiseRequest( 'v1/lending/daily/token/position', { asset }, { base: sapi, type: 'SIGNED' } );
+        },
+
         //** Futures methods */
         futuresPing: async ( params = {} ) => {
             return promiseRequest( 'v1/ping', params, { base:fapi } );
@@ -5927,6 +5949,18 @@ let api = function Binance( options = {} ) {
             }
         }
     };
-}
+};
+
+let FlexibleStatusEnum = {};
+FlexibleStatusEnum["ALL"] = "ALL";
+FlexibleStatusEnum["SUBSCRIBABLE"] = "SUBSCRIBABLE";
+FlexibleStatusEnum["UNSUBSCRIBABLE"] = "UNSUBSCRIBABLE"; 
+api.FlexibleStatusEnum = FlexibleStatusEnum;
+
+let FeaturedEnum = {};
+FeaturedEnum["ALL"] = "ALL";
+FeaturedEnum["TRUE"] = "TRUE";
+api.FeaturedEnum = FeaturedEnum;
+
 module.exports = api;
 //https://github.com/binance-exchange/binance-official-api-docs
