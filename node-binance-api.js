@@ -3958,6 +3958,27 @@ let api = function Binance( options = {} ) {
             return promiseRequest( 'v1/lending/daily/token/position', { asset }, { base: sapi, type: 'SIGNED' } );
         },
 
+        /**
+        * Purchase Flexible Product
+        * @param productId
+        * @param amount
+        * @return {promise}
+        */
+        purchaseFlexibleProduct: async ( productId, amount ) => {
+            return promiseRequest( 'v1/lending/daily/purchase', { productId, amount }, { method: 'POST', base: sapi, type: 'SIGNED' } );
+        },
+
+        /**
+        * Redeem Flexible Product
+        * @param productId
+        * @param amount
+        * @param type
+        * @return {promise}
+        */
+        redeemFlexibleProduct: async ( productId, amount, type ) => {
+            return promiseRequest( 'v1/lending/daily/redeem', { productId, amount, type }, { method: 'POST', base: sapi, type: 'SIGNED' } );
+        },
+
         //** Futures methods */
         futuresPing: async ( params = {} ) => {
             return promiseRequest( 'v1/ping', params, { base:fapi } );

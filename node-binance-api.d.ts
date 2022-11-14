@@ -880,6 +880,23 @@ declare module "node-binance-api" {
         */
         flexibleProductPosition( asset: string ): Promise<any>;
 
+        /**
+        * Purchase Flexible Product
+        * @param productId
+        * @param amount
+        * @return {promise}
+        */
+        purchaseFlexibleProduct( productId: string, amount: number ): Promise<any>;
+
+        /**
+        * Redeem Flexible Product
+        * @param productId
+        * @param amount
+        * @param type
+        * @return {promise}
+        */
+        redeemFlexibleProduct( productId: string, amount: number, type: string ): Promise<any>;
+
         futuresPing(params?: any): Promise<any>;
         futuresPing(...args: any): any;
 
