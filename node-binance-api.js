@@ -3016,6 +3016,40 @@ let api = function Binance( options = {} ) {
         },
 
         /**
+        * Cancels and replace an order
+        * @param {string} symbol - the symbol to cancel and replace
+        * @param {string} cancelOrderId - the orderid to cancel
+        * @param {string} side - BUY or SELL
+        * @param {string} type - type. e.g.: LIMIT
+        * @param {string} cancelReplaceMode - STOP_ON_FAILURE or ALLOW_FAILURE
+        * @param {string} price - price
+        * @param {string} flags - other parameters
+        * @param {function} callback - the callback function
+        * @return {promise or undefined} - omitting the callback returns a promise
+        */
+        cancelReplace: function ( symbol, cancelOrderId, side, type, cancelReplaceMode, price, flags, callback = false ) {
+            const parameters = Object.assign( { symbol, cancelOrderId, side, type, cancelReplaceMode, price }, flags );
+            if ( !callback ) {
+                return new Promise( ( resolve, reject ) => {
+                    callback = ( error, response ) => {
+                        if ( error ) {
+                            reject( error );
+                        } else {
+                            resolve( response );
+                        }
+                    }
+                    signedRequest( base + 'v3/cancelReplace', parameters, function ( error, data ) {
+                        return callback.call( this, error, data, symbol );
+                    }, 'POST' );
+                } )
+            } else {
+                signedRequest( base + 'v3/cancelReplace', parameters, function ( error, data ) {
+                    return callback.call( this, error, data, symbol );
+                }, 'POST' );
+            }
+        },
+
+        /**
         * Gets the status of an order
         * @param {string} symbol - the symbol to check
         * @param {string} orderid - the orderid to check if !orderid then  use flags to search
@@ -3026,7 +3060,7 @@ let api = function Binance( options = {} ) {
         orderStatus: function ( symbol, orderid, callback, flags = {} ) {
             let parameters = Object.assign( { symbol: symbol }, flags );
             if (orderid){
-                Object.assign( { orderId: orderid }, parameters )
+                parameters = Object.assign( { orderId: orderid }, parameters );
             }
 
             if ( !callback ) {

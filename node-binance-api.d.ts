@@ -528,6 +528,21 @@ declare module "node-binance-api" {
         cancel(...args: any): any;
 
         /**
+        * Cancels and replace an order
+        * @param {string} symbol - the symbol to cancel and replace
+        * @param {string} cancelOrderId - the orderid to cancel
+        * @param {string} side - BUY or SELL
+        * @param {string} type - type. e.g.: LIMIT
+        * @param {string} cancelReplaceMode - STOP_ON_FAILURE or ALLOW_FAILURE
+        * @param {string} price - price
+        * @param {string} flags - other parameters
+        * @param {function} callback - the callback function
+        * @return {promise or undefined} - omitting the callback returns a promise
+        */
+        cancelReplace( symbol: string, cancelOrderId: number, side: string, type: string, cancelReplaceMode: string, price: number, flags?: any, callback?: _callback): Promise<any>;
+        cancelReplace( symbol: string, cancelOrderId: number, side: string, type: string, cancelReplaceMode: string, price: number, flags?: any, callback?: _callback): any;
+
+        /**
         * Gets the status of an order
         * @param {string} symbol - the symbol to check
         * @param {string} orderid - the orderid to check
